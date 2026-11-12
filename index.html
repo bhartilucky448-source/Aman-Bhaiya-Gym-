@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>अमन भैया जिम — Local Gym Ke Gaane & Workout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Rozha+One&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.48), rgba(10,10,10,0.88)), url('aman.jpg') center/cover no-repeat fixed;
+      color: #fff8eb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 14px 20px;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    /* Top Bar */
+    .top-bar { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; width: 100%; max-width: 420px; z-index: 10; }
+    .pill {
+      background: rgba(24, 16, 10, 0.78); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 215, 160, 0.18);
+      padding: 6px 12px; border-radius: 50px;
+      font-size: 11px; font-weight: 600; color: #f3e8d2;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .green-dot { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Center Hero Title */
+    .hero { margin: auto 0; transition: 0.3s ease; }
+    .hero.hidden { display: none; }
+    .hindi-title { font-family: 'Rozha One', serif; font-size: 54px; line-height: 0.95; color: #fffaf0; text-shadow: 0 4px 24px rgba(0,0,0,0.9); }
+    .sub-title { font-size: 10px; letter-spacing: 2px; color: #f59e0b; margin-top: 8px; font-weight: 700; }
+    .tagline { font-size: 13.5px; font-style: italic; color: #e5d5b7; margin-top: 4px; }
+
+    /* Main Container */
+    .main-wrap { width: 100%; max-width: 410px; display: flex; flex-direction: column; gap: 9px; }
+
+    /* Glass Card Base */
+    .glass-card {
+      background: rgba(22, 14, 9, 0.82);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 205, 145, 0.16);
+      border-radius: 18px;
+      padding: 10px 14px;
+    }
+
+    /* Music Player Card with Seek Bar */
+    .player-card {
+      border-radius: 22px;
+      padding: 10px 14px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .player-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .disc-box {
+      position: relative; width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      padding: 3px;
+      background: radial-gradient(circle, #f59e0b 0%, #1a110b 65%, #f59e0b 100%);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+      overflow: hidden;
+    }
+    .disc-box img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .disc-grooves {
+      position: absolute; inset: 3px; border-radius: 50%;
+      background: repeating-radial-gradient(circle, transparent 0px, transparent 3px, rgba(0,0,0,0.28) 4px);
+      pointer-events: none;
+    }
+    .disc-center {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 11px; height: 11px; background: #180f0a; border-radius: 50%;
+      border: 2px solid #fbbf24;
+    }
+    .spin { animation: spinDisc 4.5s linear infinite; }
+    @keyframes spinDisc { 100% { transform: rotate(360deg); } }
+
+    .now-info { flex: 1; text-align: left; overflow: hidden; }
+    .now-title { font-size: 12.5px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .now-sub { font-size: 10px; color: #c7a982; display: flex; align-items: center; gap: 6px; margin-top: 1px; }
+
+    /* Mini Equalizer inside player */
+    .mini-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; }
+    .mini-eq span { width: 2px; height: 3px; background: #fbbf24; border-radius: 2px; }
+    .eq-on span { animation: eqMini 0.45s ease-in-out infinite alternate; }
+    .eq-on span:nth-child(2) { animation-delay: 0.2s; }
+    .eq-on span:nth-child(3) { animation-delay: 0.35s; }
+    @keyframes eqMini { 0% { height: 3px; } 100% { height: 10px; } }
+
+    .p-controls { display: flex; align-items: center; gap: 5px; }
+    .c-btn {
+      width: 29px; height: 29px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: none; color: #fff;
+      font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .c-play {
+      width: 37px; height: 37px; border-radius: 50%;
+      background: #f59e0b; border: none; color: #000;
+      font-size: 14px; font-weight: bold; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Interactive Song Seek Bar (Aage-Peeche karne ke liye) */
+    .seek-wrap { display: flex; align-items: center; gap: 8px; width: 100%; }
+    .s-time { font-size: 9.5px; color: #c7a982; min-width: 28px; font-variant-numeric: tabular-nums; }
+    .seek-slider {
+      flex: 1; -webkit-appearance: none; appearance: none;
+      height: 4px; border-radius: 5px; background: rgba(255,255,255,0.18);
+      outline: none; cursor: pointer;
+    }
+    .seek-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 13px; height: 13px; border-radius: 50%;
+      background: #fbbf24; cursor: pointer;
+      box-shadow: 0 0 8px rgba(251, 191, 36, 0.8);
+    }
+
+    /* Popup Playlist Card */
+    .playlist-card {
+      display: none; flex-direction: column;
+      height: 46vh; min-height: 280px; max-height: 380px;
+      text-align: left;
+    }
+    .playlist-card.open { display: flex; }
+    .pl-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .pl-title { font-size: 17px; font-weight: 700; color: #fff8eb; }
+    .pl-sub { font-size: 9.5px; letter-spacing: 1.5px; color: #c7a982; }
+    .pl-close { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.08); border: none; color: #fff; cursor: pointer; }
+    .pl-scroll { flex: 1; overflow-y: auto; margin-top: 8px; }
+    .track-row { display: flex; align-items: center; gap: 10px; padding: 7px 6px; border-radius: 12px; cursor: pointer; }
+    .track-row:hover, .track-row.active { background: rgba(245, 158, 11, 0.22); }
+    .track-num { font-size: 11px; color: #a88b68; width: 18px; font-weight: 600; }
+    .thumb-wrap {
+      position: relative; width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+      overflow: hidden; border: 1.5px solid rgba(245, 158, 11, 0.45);
+    }
+    .track-thumb { width: 100%; height: 100%; object-fit: cover; }
+    .track-meta { flex: 1; overflow: hidden; }
+    .track-name { font-size: 12.5px; font-weight: 600; color: #fff8eb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .track-channel { font-size: 10px; color: #b59b7c; }
+
+    /* Compact Workout Bar (Hidden details until clicked) */
+    .workout-box { text-align: left; padding: 9px 12px; }
+    .w-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+    .w-heading { font-size: 10.5px; font-weight: 700; color: #f59e0b; letter-spacing: 1px; text-transform: uppercase; }
+    .week-toggle {
+      background: rgba(245, 158, 11, 0.16); border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24; font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 50px; cursor: pointer;
+    }
+    .day-pills { display: flex; gap: 6px; overflow-x: auto; }
+    .day-pills::-webkit-scrollbar { display: none; }
+    .d-pill {
+      white-space: nowrap; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1); color: #e5d5b7;
+      padding: 5px 11px; border-radius: 50px; font-size: 11px; font-weight: 600; cursor: pointer;
+    }
+    .d-pill.active { background: #f59e0b; border-color: #f59e0b; color: #000; }
+
+    /* Expandable Detail Drawer (By default closed so photo stays clear!) */
+    .day-detail {
+      display: none;
+      margin-top: 8px; padding: 8px 10px; border-radius: 12px;
+      background: rgba(0,0,0,0.45); font-size: 11.5px; color: #f3e8d2; line-height: 1.45;
+      border-left: 3px solid #f59e0b;
+    }
+    .day-detail.open { display: block; }
+
+    .week-chart {
+      display: none; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;
+      font-size: 11px;
+    }
+    .week-chart.open { display: block; }
+    .wk-row { display: flex; justify-content: space-between; padding: 4px 2px; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+    .wk-day { color: #fbbf24; font-weight: 600; }
+    .wk-part { color: #e5d5b7; }
+
+    /* Compact Fee Card */
+    .fee-card {
+      background: rgba(22, 14, 9, 0.82);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 16px;
+      padding: 9px 14px;
+      display: flex; justify-content: space-between; align-items: center;
+      text-align: left;
+    }
+    .fee-title { font-size: 10px; font-weight: 700; color: #fbbf24; }
+    .fee-amt { font-size: 13px; font-weight: 700; color: #fff; }
+    .fee-right { text-align: right; font-size: 10px; color: #e5d5b7; }
+
+    /* Desi Gym Shayari Box */
+    .shayari-box { cursor: pointer; padding: 9px 14px; }
+    .shayari-text { font-size: 12.5px; font-style: italic; color: #fff8eb; line-height: 1.35; }
+
+    .footer { font-size: 9px; color: #b59b7c; letter-spacing: 1.2px; margin-top: 2px; }
+    #yt-player-frame { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="pill" id="liveClock">2:31 pm</div>
+    <div class="pill"><span class="green-dot"></span> 500 lifting right now</div>
+    <div class="pill" id="liveDate">📅 12 Nov 2026</div>
+  </div>
+
+  <!-- Center Hero Title -->
+  <div class="hero" id="heroSection">
+    <div class="hindi-title">अमन भैया<br>जिम</div>
+    <div class="sub-title">AMAN BHAIYA GYM • POWERED BY LUCKY BHARTI</div>
+    <div class="tagline">Loha Utha, Volume Badha.</div>
+  </div>
+
+  <div class="main-wrap">
+    <!-- Popup Playlist Card -->
+    <div class="glass-card playlist-card" id="playlistCard">
+      <div class="pl-header">
+        <div>
+          <div class="pl-title">Local Gym Ke Gaane</div>
+          <div class="pl-sub">AMAN BHAIYA GYM • 40 TRACKS</div>
+        </div>
+        <button class="pl-close" onclick="togglePlaylist()">✕</button>
+      </div>
+      <div class="pl-scroll" id="playlistContainer">
+        <div style="padding: 20px; text-align: center; font-size: 12px; color: #c7a982;">
+          Play (▶) dabate hi saare gaane load ho jayenge!
+        </div>
+      </div>
+    </div>
+
+    <!-- Music Player with Seek Bar -->
+    <div class="glass-card player-card">
+      <div class="player-top">
+        <div class="disc-box" id="discBox">
+          <img src="aman.jpg" id="discThumb" alt="Track">
+          <div class="disc-grooves"></div>
+          <div class="disc-center"></div>
+        </div>
+
+        <div class="now-info">
+          <div class="now-title" id="trackTitle">Aman Bhaiya Gym Playlist</div>
+          <div class="now-sub">
+            <span class="mini-eq" id="miniEq"><span></span><span></span><span></span></span>
+            <span>Aman Bhaiya • Gym Mix</span>
+          </div>
+        </div>
+
+        <div class="p-controls">
+          <button class="c-btn" onclick="prevTrack()">‹</button>
+          <button class="c-play" id="playBtn" onclick="togglePlay()">▶</button>
+          <button class="c-btn" onclick="nextTrack()">›</button>
+          <button class="c-btn" onclick="togglePlaylist()" title="Open Playlist">≡</button>
+        </div>
+      </div>
+
+      <!-- Song Progress / Seek Bar -->
+      <div class="seek-wrap">
+        <span class="s-time" id="curTime">0:00</span>
+        <input type="range" id="seekSlider" class="seek-slider" min="0" max="100" value="0" oninput="onSeekInput(this.value)" onchange="onSeekChange(this.value)">
+        <span class="s-time" id="durTime">0:00</span>
+      </div>
+    </div>
+
+    <!-- Workout Selector (Tap to Open, Tap again to Hide) -->
+    <div class="glass-card workout-box">
+      <div class="w-top">
+        <span class="w-heading">🏋️ Workout (Tap to View)</span>
+        <button class="week-toggle" onclick="toggleWeekChart()">📅 Week Chart</button>
+      </div>
+
+      <div class="day-pills">
+        <button class="d-pill" onclick="toggleWorkout('chest', this)">💪 Chest</button>
+        <button class="d-pill" onclick="toggleWorkout('leg', this)">🦵 Leg Day</button>
+        <button class="d-pill" onclick="toggleWorkout('back', this)">🔥 Back</button>
+        <button class="d-pill" onclick="toggleWorkout('shoulder', this)">🏋️ Shoulder</button>
+        <button class="d-pill" onclick="toggleWorkout('cardio', this)">🏃 Cardio</button>
+      </div>
+
+      <!-- Hidden by default so background photo stays clean -->
+      <div class="day-detail" id="workoutDetail"></div>
+
+      <!-- Full Week Chart (Hidden by default) -->
+      <div class="week-chart" id="weekChart">
+        <div class="wk-row"><span class="wk-day">Monday</span><span class="wk-part">Chest + Triceps</span></div>
+        <div class="wk-row"><span class="wk-day">Tuesday</span><span class="wk-part">Back + Biceps</span></div>
+        <div class="wk-row"><span class="wk-day">Wednesday</span><span class="wk-part">Shoulder + Traps</span></div>
+        <div class="wk-row"><span class="wk-day">Thursday</span><span class="wk-part">Leg Day (Heavy Squats)</span></div>
+        <div class="wk-row"><span class="wk-day">Friday</span><span class="wk-part">Arms Special (Biceps/Triceps)</span></div>
+        <div class="wk-row" style="border:none;"><span class="wk-day">Saturday</span><span class="wk-part">Cardio + Core + Abs</span></div>
+      </div>
+    </div>
+
+    <!-- Simple Fee Structure -->
+    <div class="fee-card">
+      <div>
+        <div class="fee-title">💵 GYM FEE</div>
+        <div class="fee-amt">₹500 / Month</div>
+      </div>
+      <div class="fee-right">
+        <div>Admission: <b>₹200</b></div>
+        <div style="color: #c7b59b;">⏰ 5 AM – 10 PM</div>
+      </div>
+    </div>
+
+    <!-- Desi Gym Shayari Box -->
+    <div class="glass-card shayari-box" onclick="nextShayari()">
+      <div class="shayari-text" id="shayariText">“Bhai meri baari hai, plate mat utarna — abhi toh asli set baaki hai!”</div>
+    </div>
+
+    <div class="footer">MOHALLE KE GYM SE SEEDHA SPEAKER TAK • BATHNAHA, BIHAR, PATNA</div>
+  </div>
+
+  <div id="yt-player-frame"></div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    const PLAYLIST_ID = 'PLeSBLQQMsgIY';
+    let player = null;
+    let isPlaying = false;
+    let isSeeking = false;
+    let videoIds = [];
+    let currentIndex = 0;
+    let lastVidId = '';
+    let activeWorkoutKey = '';
+
+    const workouts = {
+      chest: "<b>Chest & Biceps:</b> Flat Bench Press (4×12), Incline Dumbbell Press (3×12), Pec Deck Fly (3×15), Barbell Curl (4×12), Hammer Curl (3×12).",
+      leg: "<b>Leg Day:</b> Barbell Squats (4×12), Leg Press (4×15), Leg Extension (3×15), Hamstring Curl (3×12), Standing Calf Raises (4×20).",
+      back: "<b>Back & Triceps:</b> Lat Pulldown (4×12), Seated Cable Row (3×12), Deadlift (3×8), Tricep Rope Pushdown (4×15), Skull Crushers (3×12).",
+      shoulder: "<b>Shoulder & Traps:</b> Overhead Dumbbell Press (4×12), Lateral Raises (4×15), Front Raises (3×12), Face Pulls (3×15), Shrugs (4×15).",
+      cardio: "<b>Cardio & Abs:</b> Treadmill Sprint (15 min), Skipping Rope (3×2 min), Hanging Leg Raises (3×15), Plank (3×1 min), Russian Twists (3×20)."
+    };
+
+    // Up & Down Toggle: Dubara dabane par band ho jayega
+    function toggleWorkout(type, btn) {
+      const detailBox = document.getElementById('workoutDetail');
+      document.getElementById('weekChart').classList.remove('open');
+
+      if (activeWorkoutKey === type && detailBox.classList.contains('open')) {
+        detailBox.classList.remove('open');
+        btn.classList.remove('active');
+        activeWorkoutKey = '';
+        return;
+      }
+
+      document.querySelectorAll('.d-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      detailBox.innerHTML = workouts[type];
+      detailBox.classList.add('open');
+      activeWorkoutKey = type;
+    }
+
+    function toggleWeekChart() {
+      document.getElementById('workoutDetail').classList.remove('open');
+      document.querySelectorAll('.d-pill').forEach(p => p.classList.remove('active'));
+      activeWorkoutKey = '';
+      document.getElementById('weekChart').classList.toggle('open');
+    }
+
+    const gymShayaris = [
+      "“Bhai meri baari hai, plate mat utarna — abhi toh asli set baaki hai!”",
+      "“Paseena baha le mere dost, warna kal sheesha bhi jhooth bolega.”",
+      "“Dard abhi baaki hai, do rep aur laga le — body yahin banegi!”",
+      "“Agla gaana trainer ki marzi se, aur aakhri rep apni zidd se!”",
+      "“Log bahane banate reh gaye, aur humne ek plate aur badha li.”",
+      "“Leg day ke baad seedhiyan utarna hi asli imtihaan hai bhai!”"
+    ];
+    let shayariIdx = 0;
+    function nextShayari() {
+      shayariIdx = (shayariIdx + 1) % gymShayaris.length;
+      document.getElementById('shayariText').textContent = gymShayaris[shayariIdx];
+    }
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-player-frame', {
+        height: '1', width: '1',
+        playerVars: { listType: 'playlist', list: PLAYLIST_ID, autoplay: 0, controls: 0 },
+        events: {
+          'onReady': ()
