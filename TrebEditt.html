@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>अमन भैया जिम अखाड़ा — Local Gym Ke Gaane</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,500&family=Rozha+One&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    background: 
+      linear-gradient(to bottom, rgba(10, 6, 4, 0.78) 0%, rgba(20, 10, 5, 0.7) 50%, rgba(5, 3, 2, 0.96) 100%),
+      url('aman.jpg') center/cover no-repeat;
+    color: #fff8eb;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 16px 24px;
+    text-align: center;
+    overflow-x: hidden;
+  }
+
+  /* Top 3 Status Pills */
+  .top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 4px;
+  }
+
+  .pill {
+    background: rgba(18, 12, 8, 0.82);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 220, 170, 0.14);
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #f3e8d2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .green-dot {
+    width: 7px;
+    height: 7px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #22c55e;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .yt-icon {
+    color: #ef4444;
+    font-size: 11px;
+  }
+
+  /* Center Heavy Hindi Branding */
+  .hero-section {
+    margin: auto 0;
+    padding: 24px 0;
+  }
+
+  .hindi-title {
+    font-family: 'Rozha One', serif;
+    font-size: 62px;
+    line-height: 0.95;
+    color: #fffaf0;
+    text-shadow: 0 6px 28px rgba(0, 0, 0, 0.9), 0 3px 0 #2c1409;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .sub-credit {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    color: #e2a868;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  }
+
+  .tagline {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 500;
+    color: #f5ebd6;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+  }
+
+  /* Middle Section: Sleek Player + Quote Box */
+  .bottom-controls {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .player-pill {
+    background: rgba(22, 14, 10, 0.92);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 200, 140, 0.22);
+    border-radius: 50px;
+    padding: 8px 14px 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.8);
+  }
+
+  .album-art {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f97316 15%, #1c1917 22%, #292524 60%, #000 100%);
+    border: 2px solid #f97316;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    animation: spin 8s linear infinite;
+    animation-play-state: paused;
+  }
+
+  .album-art.playing {
+    animation-play-state: running;
+  }
+
+  @keyframes spin {
+    100% { transform: rotate(360deg); }
+  }
+
+  .track-info {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .track-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .track-sub {
+    font-size: 9.5px;
+    color: #a8a29e;
+    margin-bottom: 4px;
+  }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    color: #a8a29e;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #f97316;
+    transition: width 0.3s linear;
+  }
+
+  .btn-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .circle-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .circle-btn:active {
+    background: rgba(255,255,255,0.2);
+  }
+
+  .play-orange {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #f97316;
+    color: #1c1917;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.55);
+  }
+
+  .play-orange:active {
+    transform: scale(0.9);
+  }
+
+  .menu-btn {
+    background: none;
+    border: none;
+    color: #e7e5e4;
+    font-size: 16px;
+    cursor: pointer;
+    padding-left: 2px;
+  }
+
+  /* Playlist Info Drawer */
+  .playlist-drawer {
+    display: none;
+    background: rgba(18, 11, 7, 0.96);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    border-radius: 16px;
+    padding: 12px;
+    text-align: left;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    font-size: 12px;
+    color: #f3e8d2;
+  }
+
+  .playlist-drawer.open {
+    display: block;
+  }
+
+  /* Quote Box */
+  .quote-card {
+    background: rgba(16, 10, 6, 0.88);
+    border: 1px solid rgba(249, 115, 22, 0.38);
+    border-radius: 14px;
+    padding: 16px 14px;
+    font-size: 14px;
+    font-style: italic;
+    color: #f5ebd6;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.65);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 18px;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    color: #c2b6a9;
+    text-transform: uppercase;
+    line-height: 1.7;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  }
+
+  /* Hidden YouTube Audio Engine */
+  #yt-hidden-box {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    opacity: 0.01;
+    pointer-events: none;
+    bottom: 0;
+    right: 0;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top 3 Pills -->
+  <div class="top-bar">
+    <div class="pill" id="liveClock">--:-- --</div>
+    <div class="pill"><span class="green-dot"></span> <span id="lifterCount">418</span> lifting right now</div>
+    <a href="https://music.youtube.com/playlist?list=PLeSBLQQMsgIY" target="_blank" class="pill"><span class="yt-icon">▶</span> YT Music</a>
+  </div>
+
+  <!-- Heavy Hindi Centerpiece -->
+  <div class="hero-section">
+    <div class="hindi-title">अमन भैया<br>जिम</div>
+    <div class="sub-credit">AMAN BHAIYA GYM • POWERED BY LUCKY BHARTI</div>
+    <div class="tagline">Loha Utha, Volume Badha.</div>
+  </div>
+
+  <!-- Sleek Audio Player & Quote Box -->
+  <div class="bottom-controls">
+    <div class="player-pill">
+      <div class="album-art" id="albumArt">🏋️</div>
+      <div class="track-info">
+        <div class="track-name" id="trackName">Loha Lakkad — Local Gym Ke Gaane</div>
+        <div class="track-sub" id="trackSub">Aman Bhaiya Gym • 40 Desi Gym Songs</div>
+        <div class="progress-row">
+          <span id="currTime">0:00</span>
+          <div class="progress-bar" id="progressBar" onclick="seekAudio(event)">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span id="durTime">0:00</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="circle-btn" onclick="prevSong()">‹</button>
+        <button class="play-orange" id="playBtn" onclick="togglePlay()">▶</button>
+        <button class="circle-btn" onclick="nextSong()">›</button>
+        <button class="menu-btn" onclick="togglePlaylist()">☰</button>
+      </div>
+    </div>
+
+    <!-- Playlist Status Drawer -->
+    <div class="playlist-drawer" id="playlistDrawer">
+      <div style="font-weight:700; color:#fdba74; margin-bottom:4px;">🎵 Loha Lakkad — Local Gym Ke Gaane</div>
+      <div id="plStatusText" style="color:#a8a29e;">40 देसी जिम गानों की लाइव प्लेलिस्ट जुड़ी हुई है। अगला गाना बदलने के लिए › दबाएं।</div>
+    </div>
+
+    <!-- Trainer Quote Box -->
+    <div class="quote-card" id="quoteCard" onclick="nextQuote()">
+      “Agla gaana trainer ki marzi se.”
+    </div>
+  </div>
+
+  <!-- Bottom Footer -->
+  <footer>
+    MOHALLE KE GYM SE SEEDHA SPEAKER TAK<br>
+    CURATED BY LUCKY BHARTI • PATNA
+  </footer>
+
+  <!-- Hidden YouTube Player -->
+  <div id="yt-hidden-box">
+    <div id="ytplayer"></div>
+  </div>
+
+<script>
+  const PLAYLIST_ID = "PLeSBLQQMsgIY";
+  let player;
+  let isReady = false;
+  let progressTimer = null;
+
+  const quotes = [
+    "“Agla gaana trainer ki marzi se.”",
+    "“Ek rep aur laga, aaj dard hoga kal body banegi.”",
+    "“Aman Bhaiya Gym mein sirf pasina chalta hai.”",
+    "“Loha uthao, aalsi behosi bhagao!”"
+  ];
+  let qIdx = 0;
+
+  // Load YouTube IFrame API
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('ytplayer', {
+      height: '100',
+      width: '100',
+      playerVars: {
+        listType: 'playlist',
+        list: PLAYLIST_ID,
+        autoplay: 0,
+        controls: 0,
+        playsinline: 1,
+        loop: 1
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady() {
+    isReady = true;
+    document.getElementById("trackName").innerText = "▶ Tap Play • 40 Gym Songs Ready";
+  }
+
+  function onPlayerStateChange(event) {
+    const playBtn = document.getElementById("playBtn");
+    const albumArt = document.getElementById("albumArt");
+
+    if (event.data === YT.PlayerState.PLAYING) {
+      playBtn.innerText = "❚❚";
+      albumArt.classList.add("playing");
+      updateSongTitle();
+      startProgressLoop();
+    } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+      playBtn.innerText = "▶";
+      albumArt.classList.remove("playing");
+    } else if (event.data === YT.PlayerState.BUFFERING) {
+      document.getElementById("trackName").innerText = "Loading Desi Beat...";
+    }
+  }
+
+  function updateSongTitle() {
+    if (!player || !player.getVideoData) return;
+    const data = player.getVideoData();
+    const index = player.getPlaylistIndex ? player.getPlaylistIndex() + 1 : 1;
+    if (data && data.title) {
+      document.getElementById("trackName").innerText = data.title;
+      document.getElementById("trackSub").innerText = `Aman Bhaiya Gym • Track ${index} of 40`;
+      document.getElementById("plStatusText").innerText = `अभी चल रहा है: Track #${index} — ${data.title}`;
+    }
+  }
+
+  function togglePlay() {
+    if (!isReady) return;
+    const state = player.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  }
+
+  function nextSong() {
+    if (!isReady) return;
+    player.nextVideo();
+    setTimeout(updateSongTitle, 1000);
+  }
+
+  function prevSong() {
+    if (!isReady) return;
+    player.previousVideo();
+    setTimeout(updateSongTitle, 1000);
+  }
+
+  function startProgressLoop() {
+    clearInterval(progressTimer);
+    progressTimer = setInterval(() => {
+      if (player && player.getCurrentTime && player.getDuration) {
+        const curr = player.getCurrentTime();
+        const dur = player.getDuration();
+        if (dur > 0) {
+          const pct = (curr / dur) * 100;
+          document.getElementById("progressFill").style.width = pct + "%";
+          document.getElementById("currTime").innerText = formatTime(curr);
+          document.getElementById("durTime").innerText = formatTime(dur);
+        }
+      }
+    }, 500);
+  }
+
+  function seekAudio(e) {
+    if (!isReady || !player.getDuration) return;
+    const bar = document.getElementById("progressBar");
+    const pct = e.offsetX / bar.clientWidth;
+    player.seekTo(pct * player.getDuration(), true);
+  }
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s < 10 ? '0' + s : s}`;
+  }
+
+  function togglePlaylist() {
+    document.getElementById("playlistDrawer").classList.toggle("open");
+  }
+
+  function nextQuote() {
+    qIdx = (qIdx + 1) % quotes.length;
+    document.getElementById("quoteCard").innerText = quotes[qIdx];
+  }
+
+  // Clock Update
+  function updateClock() {
+    const now = new Date();
+    let h = now.getHours();
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const ampm = h >= 12 ? 'pm' : 'am';
+    h = h % 12 || 12;
+    document.getElementById("liveClock").innerText = `${h}:${m} ${ampm}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
